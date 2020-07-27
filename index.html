@@ -12,8 +12,8 @@
 	<body>
 		<canvas id='ani-canvas' width='1000px' height='500px'></canvas>
 		<br>
-		<button onclick='startAnimation()'>Start</button>
-		<button onclick='stopAnimation()'>Stop</button>
+		<button id='start-btn'>Start</button>
+		<button id='stop-btn'>Stop</button>
 	<script>
 		let canvas = document.getElementById('ani-canvas');
 		let ctx = canvas.getContext('2d');
@@ -74,6 +74,10 @@
 		const stopAnimation = () => {
 			cancelAnimationFrame(id);
 		};
+
+		document.getElementById('start-btn').addEventListener('click', startAnimation, false);
+
+		document.getElementById('stop-btn').addEventListener('click', stopAnimation, false);
 	</script>
 	</body>
 </html>
