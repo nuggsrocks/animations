@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Animations</title>
+		<style>
+			canvas {
+				border: 5px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id='ani-canvas' width='1000px' height='500px'></canvas>
+		<br>
+		<button onclick='startAnimation()'>Start</button>
+		<button onclick='stopAnimation()'>Stop</button>
+	<script>
+		let canvas = document.getElementById('ani-canvas');
+		let ctx = canvas.getContext('2d');
+		
+		let xCoord = 0;
+		let xSpeed = 3;
+		let yCoord = 0;
+		let ySpeed = 6;
+		let colors = ['green', 'purple', 'orange', 'red', 'yellow', 'blue'];
+		let currentColor = 0;
+
+		let rectWidth = 70;
+		let rectHeight = 70;
+
+
+		ctx.fillStyle = colors[currentColor++];
+
+		ctx.fillRect(xCoord, yCoord, rectWidth, rectHeight);
+
+		ctx.strokeStyle = 'black';
+
+		ctx.lineWidth = 5;
+
+		ctx.strokeRect(xCoord, yCoord, rectWidth, rectHeight);
+
+
+		let id;
+
+
+		const drawRectangle = () => {
+			ctx.save();
+
+			ctx.fillStyle = colors[currentColor];
+
+			ctx.fillRect(xCoord, yCoord, rectWidth, rectHeight);
+
+			ctx.strokeRect(xCoord, yCoord, rectWidth, rectHeight);
+
+			if ((xCoord + rectWidth > canvas.width) || xCoord <= 0) {
+				xSpeed = -xSpeed;
+				changeColor();
+			}
+
+			if ((yCoord + rectHeight > canvas.height) || yCoord <= 0) {
+				ySpeed = -ySpeed;
+				changeColor();
+			}
+
+
+			ctx.restore();
+		};
+
+		const drawText = () => {
+			ctx.save();
+
+			ctx.fillStyle = 'black';
+
+			ctx.fillText('Hello', xCoord + 3, yCoord + 15);
+
+			ctx.restore();
+		};
+
+		const animate = () => {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			xCoord += xSpeed;
+			yCoord += ySpeed;
+
+			drawRectangle();
+
+			drawText();
+			
+			id = window.requestAnimationFrame(animate);
+		};
+
+		const changeColor = () => {
+			ctx.fillStyle = colors[currentColor++];
+
+			if (currentColor == colors.length) {
+				currentColor = 0;
+			};
+		};
+
+		const startAnimation = () => {
+			id = requestAnimationFrame(animate);
+		};
+
+		const stopAnimation = () => {
+			cancelAnimationFrame(id);
+		};
+	</script>
+	</body>
+</html>
