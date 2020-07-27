@@ -9,7 +9,7 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body id='body'>
 		<canvas id='ani-canvas' width='1000px' height='500px'></canvas>
 		<br>
 		<button id='start-btn'>Start</button>
@@ -65,19 +65,24 @@
 			id = window.requestAnimationFrame(animate);
 		};
 
+		let started = false;
 	
 		const startAnimation = () => {
+			if (!started) id = requestAnimationFrame(animate);
 
-			id = requestAnimationFrame(animate);
+			started = true;
 		};
 
 		const stopAnimation = () => {
 			cancelAnimationFrame(id);
+			started = false;
 		};
 
+		
 		document.getElementById('start-btn').addEventListener('click', startAnimation, false);
 
 		document.getElementById('stop-btn').addEventListener('click', stopAnimation, false);
+
 	</script>
 	</body>
 </html>
