@@ -10,13 +10,16 @@
 		</style>
 	</head>
 	<body id='body'>
-		<canvas id='ani-canvas' width='1000px' height='500px'></canvas>
+		<canvas id='canvas-1' width='1000px' height='500px'></canvas>
 		<br>
 		<button id='start-btn'>Start</button>
 		<button id='stop-btn'>Stop</button>
+		<hr>
+		<canvas id='canvas-2' width='700px' height='500px'></canvas>
 	<script>
-		let canvas = document.getElementById('ani-canvas');
-		let ctx = canvas.getContext('2d');
+		// dvd logo animation
+		let canvas1 = document.getElementById('canvas-1');
+		let ctx1 = canvas1.getContext('2d');
 		
 		let xCoord = 0;
 		let xSpeed = 1.5;
@@ -32,30 +35,30 @@
 		
 		imageObj.src = 'https://img.pngio.com/dvd-logo-transparent-png-pictures-free-icons-and-png-backgrounds-dvd-logo-white-459_331.png';
 
-		imageObj.onload = () => ctx.drawImage(imageObj, xCoord, yCoord, rectWidth, rectHeight);
+		imageObj.onload = () => ctx1.drawImage(imageObj, xCoord, yCoord, rectWidth, rectHeight);
 
 		let id;
 
 
 		const drawRectangle = () => {
-			ctx.save();
+			ctx1.save();
 			
-			ctx.drawImage(imageObj, xCoord, yCoord, rectWidth, rectHeight);
+			ctx1.drawImage(imageObj, xCoord, yCoord, rectWidth, rectHeight);
 
-			if ((xCoord + rectWidth > canvas.width) || xCoord <= 0) {
+			if ((xCoord + rectWidth > canvas1.width) || xCoord <= 0) {
 				xSpeed = -xSpeed;
 			}
 
-			if ((yCoord + rectHeight > canvas.height) || yCoord <= 0) {
+			if ((yCoord + rectHeight > canvas1.height) || yCoord <= 0) {
 				ySpeed = -ySpeed;
 			}
 
-			ctx.restore();
+			ctx1.restore();
 		};
 
 		
 		const animate = () => {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
 
 			xCoord += xSpeed;
 			yCoord += ySpeed;
@@ -83,6 +86,44 @@
 
 		document.getElementById('stop-btn').addEventListener('click', stopAnimation, false);
 
+
+
+		// mouse position
+		let canvas2 = document.getElementById('canvas-2');
+		let ctx2 = canvas2.getContext('2d');
+
+		let defaultMessage = 'Mouse Position: N/A';
+
+
+		const writeMessage = (message) => {
+			ctx2.save();
+			ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+			ctx2.font = '19px';
+			ctx2.fillStyle = 'black';
+			ctx2.fillText(message, 10, 25);
+			ctx2.restore();
+		};
+
+		const getMousePosition = (event) => {
+			let rect = canvas2.getBoundingClientRect();
+			return {
+				x: event.clientX - rect.left,
+				y: event.clientY - rect.top
+			};
+		};
+
+		canvas2.addEventListener('mousemove', event => {
+			mousePosition = getMousePosition(event);
+			let message = 'Mouse Position: ' + mousePosition.x + ', ' + mousePosition.y;
+			writeMessage(message);
+		}, false);
+
+		canvas2.addEventListener('mouseout', () => {
+			writeMessage(defaultMessage);
+		}, false);
+
+		writeMessage(defaultMessage);
+	
 	</script>
 	</body>
 </html>
