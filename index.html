@@ -19,63 +19,41 @@
 		let ctx = canvas.getContext('2d');
 		
 		let xCoord = 0;
-		let xSpeed = 3;
+		let xSpeed = 1.5;
 		let yCoord = 0;
-		let ySpeed = 6;
+		let ySpeed = 2;
 		let colors = ['green', 'purple', 'orange', 'red', 'yellow', 'blue'];
 		let currentColor = 0;
 
 		let rectWidth = 70;
 		let rectHeight = 70;
 
+		let imageObj = new Image();
+		
+		imageObj.src = 'https://img.pngio.com/dvd-logo-transparent-png-pictures-free-icons-and-png-backgrounds-dvd-logo-white-459_331.png';
 
-		ctx.fillStyle = colors[currentColor++];
-
-		ctx.fillRect(xCoord, yCoord, rectWidth, rectHeight);
-
-		ctx.strokeStyle = 'black';
-
-		ctx.lineWidth = 5;
-
-		ctx.strokeRect(xCoord, yCoord, rectWidth, rectHeight);
-
+		imageObj.onload = () => ctx.drawImage(imageObj, xCoord, yCoord, rectWidth, rectHeight);
 
 		let id;
 
 
 		const drawRectangle = () => {
 			ctx.save();
-
-			ctx.fillStyle = colors[currentColor];
-
-			ctx.fillRect(xCoord, yCoord, rectWidth, rectHeight);
-
-			ctx.strokeRect(xCoord, yCoord, rectWidth, rectHeight);
+			
+			ctx.drawImage(imageObj, xCoord, yCoord, rectWidth, rectHeight);
 
 			if ((xCoord + rectWidth > canvas.width) || xCoord <= 0) {
 				xSpeed = -xSpeed;
-				changeColor();
 			}
 
 			if ((yCoord + rectHeight > canvas.height) || yCoord <= 0) {
 				ySpeed = -ySpeed;
-				changeColor();
 			}
 
-
 			ctx.restore();
 		};
 
-		const drawText = () => {
-			ctx.save();
-
-			ctx.fillStyle = 'black';
-
-			ctx.fillText('Hello', xCoord + 3, yCoord + 15);
-
-			ctx.restore();
-		};
-
+		
 		const animate = () => {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -83,21 +61,13 @@
 			yCoord += ySpeed;
 
 			drawRectangle();
-
-			drawText();
 			
 			id = window.requestAnimationFrame(animate);
 		};
 
-		const changeColor = () => {
-			ctx.fillStyle = colors[currentColor++];
-
-			if (currentColor == colors.length) {
-				currentColor = 0;
-			};
-		};
-
+	
 		const startAnimation = () => {
+
 			id = requestAnimationFrame(animate);
 		};
 
