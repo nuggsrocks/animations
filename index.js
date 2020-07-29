@@ -6,8 +6,6 @@ let xCoord = 0;
 let xSpeed = 1.5;
 let yCoord = 0;
 let ySpeed = 2;
-let colors = ['green', 'purple', 'orange', 'red', 'yellow', 'blue'];
-let currentColor = 0;
 
 let rectWidth = 70;
 let rectHeight = 70;
@@ -69,6 +67,8 @@ document.getElementById('stop-btn').addEventListener('click', stopAnimation, fal
 
 
 
+
+
 // mouse position
 let canvas2 = document.getElementById('canvas-2');
 let ctx2 = canvas2.getContext('2d');
@@ -106,18 +106,21 @@ canvas2.addEventListener('mouseout', () => {
 writeMessage(defaultMessage);
 
 
+
+
+
+
 // painting 
-let canvas3 = document.getElementById('canvas-3');
-let ctx3 = canvas3.getContext('2d');
+let canvas3 = document.getElementById('canvas-3'), ctx3 = canvas3.getContext('2d'), painting = false, 
+	prevMousePosition, colors = ['red', 'blue', 'yellow', 'green', 'black', 'orange', 'purple'], currentColor = 'black';
 
 const drawImmediateLine = (x1, y1, x2, y2) => {
 	ctx3.beginPath();
+	ctx3.strokeStyle = currentColor;
 	ctx3.moveTo(x1, y1);
 	ctx3.lineTo(x2, y2);
 	ctx3.stroke();
 };
-
-let painting = false, prevMousePosition;
 
 const handleMouseMove = (event) => {
 	let mousePosition = getMousePosition(canvas3, event);
@@ -136,6 +139,18 @@ const clicked = (event) => {
 const released = (event) => {
 	painting = false;
 };
+
+let paintOptionsDiv = document.getElementById('paint-options');
+
+colors.forEach(color => {
+	let btn = document.createElement('button');
+	btn.innerHTML = color;
+	paintOptionsDiv.appendChild(btn);
+	btn.addEventListener('click', () => {
+		currentColor = color;
+	}, false);
+});
+
 
 canvas3.addEventListener('mousemove', handleMouseMove, false);
 canvas3.addEventListener('mousedown', clicked, false);
