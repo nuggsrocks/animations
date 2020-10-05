@@ -19,7 +19,9 @@ let canvas4 = document.querySelector('#canvas-4'),
 	numberInput = document.querySelector('input#number-of-balls'),
 	speedInput = document.querySelector('input#ball-speed'),
 	speedOutput = document.querySelector('output.ball-speed');
-	speedMultiplier = 1;
+	speedMultiplier = localStorage.ballSpeed || 1;
+
+speedInput.value = speedOutput.value = speedMultiplier;
 
 const COLORS = ['red', 'blue', 'green', 'orange', 'black', 'pink', 'purple'];
 
@@ -69,6 +71,9 @@ class Ball {
 }
 
 const createBalls = (num) => {
+	localStorage.numberOfBalls = num;
+	numberInput.value = num;
+
 	let ballsArray = [];
 	for (let i = 0; i < num; i++) {
 		let radius = (Math.random() * 35) + 5,
@@ -83,7 +88,11 @@ const createBalls = (num) => {
 	return ballsArray;
 };
 
-balls = createBalls(12);
+
+
+balls = createBalls(localStorage.numberOfBalls || 12);
+
+
 
 const handleNumberInput = (event) => {
 	if (event.target.value > 250) {
@@ -97,7 +106,7 @@ const handleNumberInput = (event) => {
 numberInput.addEventListener('input', handleNumberInput, false);
 
 const handleSpeedInput = (event) => {
-	speedMultiplier = speedOutput.innerHTML = event.target.value;
+	speedMultiplier = speedOutput.innerHTML = localStorage.ballSpeed = event.target.value;
 };
 
 speedInput.addEventListener('input', handleSpeedInput, false);
